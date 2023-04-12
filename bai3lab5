@@ -1,0 +1,116 @@
+package Bai3lab5;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Scanner;
+
+public class DanhSachSanPham {
+
+    private ArrayList<SanPham> spn = new ArrayList<>();
+    Scanner sc = new Scanner(System.in);
+
+    public void menu() {
+        int chon;
+        do {
+
+            System.out.println("1. Nhap du lieu");
+            System.out.println("2. Sap xep gia giam va xuat du lieu");
+            System.out.println("3. Tim va xoa theo ten");
+            System.out.println("4. Xuat gia trung binh");
+            System.out.println("0. Thoat");
+            System.out.print("Nhap: ");
+            chon = sc.nextInt();
+            
+            switch(chon){
+                case 1:
+                    nhap();
+                    break;
+                case 2:
+                    sapxep();
+                    break;
+                case 3:
+                    timVaXoa();
+                    break;
+                case 4:
+                    tinhgiatrungbinh();
+                    break;
+                default:
+                    if(chon != 0){
+                        System.out.println("Nhap lai");
+                    }else{
+                        System.out.println("Thoat");
+                    }
+            }
+        } while (chon != 0);
+    }
+    
+    public void nhap(){
+        sc.nextLine();
+        
+            System.out.print("Nhap ten san pham: ");
+            String tenSP = sc.nextLine();
+            
+            System.out.print("Nhap gia san pham: ");
+            double giaSP = sc.nextDouble();
+            
+            SanPham spx = new SanPham(tenSP, giaSP);
+            spn.add(spx);
+        
+    }
+    
+    public void xuat(){
+        for (SanPham sanPham : spn) {
+            System.out.println(sanPham.toString());
+        }
+    }
+    
+    public void sapxep(){
+        Comparator<SanPham> comp = new Comparator<SanPham>() {
+            @Override
+            public int compare(SanPham o1, SanPham o2) {
+               return Double.compare(o1.getGiaSP(), o2.getGiaSP());
+            }
+        };
+        Collections.sort(spn,comp);
+        xuat();
+    }
+    
+    public void timVaXoa(){
+        sc.nextLine();
+        System.out.print("Nhap vao ten can tim va xoa no: ");
+        String tenSP = sc.nextLine();
+        for (SanPham t : spn) {
+            if(t.getTenSP().indexOf(tenSP)>=0);
+        }
+        for (SanPham x : spn) {
+            if(x.getTenSP().equalsIgnoreCase(tenSP)){
+                spn.remove(x);
+                System.out.println("Xoa oke");
+                break;
+            }
+        }
+        xuat();
+    }
+    
+    public void tinhgiatrungbinh(){
+        double avg =0, tong =0;
+        for (SanPham av : spn) {
+            tong += av.getGiaSP();
+        }
+        avg = tong / spn.size();
+        System.out.println("Tong trung binh: " + avg);
+    }
+}
+
+
+
+package Bai3lab5;
+
+public class Main {
+    public static void main(String[] args) {
+        DanhSachSanPham ds = new DanhSachSanPham();
+        
+        ds.menu();
+    }
+}
